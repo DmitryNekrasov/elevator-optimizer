@@ -16,10 +16,6 @@ public class MyStrategy extends BaseStrategy {
             for (Passenger p : myPassengers) {
                 setElevator(p, e, myElevators, pCount);
             }
-//            if (e.getPassengers().size() == 20 || passengersOnFloor(e.getFloor(), myPassengers, enemyPassengers) - 3 <= e.getPassengers().size()) {
-//                e.goToFloor(nearestFloor(e));
-//            }
-
 
             if (e.getPassengers().size() == 20 || totalPassengersOnFloor(e, myPassengers, enemyPassengers) <= e.getPassengers().size()) {
                 e.goToFloor(nearestFloor(e));
@@ -38,13 +34,8 @@ public class MyStrategy extends BaseStrategy {
                 .filter(p -> (p.getFloor() == e.getFloor()) && (p.getElevator() == e.getId() || !p.hasElevator()))
                 .count();
 
-//        if (floor == 1) {
-//            System.err.println(count);
-//        }
-
         return count;
     }
-
 
     private int nearestFloor(Elevator e) {
         int nearest = e.getPassengers().get(0).getDestFloor();
@@ -59,18 +50,10 @@ public class MyStrategy extends BaseStrategy {
         return nearest;
     }
 
-    private int passengersOnFloor(Integer floor, List<Passenger> myPassengers, List<Passenger> enemyPassengers) {
-        int count;
-        count = (int) myPassengers.stream().filter(p -> p.getFloor() == floor).count();
-        count += (int) enemyPassengers.stream().filter(p -> p.getFloor() == floor).count();
-
-        return count;
-    }
-
     private void setElevator(Passenger p, Elevator e, List<Elevator> elevators, int pCount) {
         if (p.getState() < 5) {
             if (pCount < 100) {
-                if (p.getDestFloor() > 5) {
+                if (p.getDestFloor() > 6) {
                     p.setElevator(e);
                 }
             } else {
