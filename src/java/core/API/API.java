@@ -23,6 +23,7 @@ public class API {
     private BaseStrategy strategy = null;
     public API(String solutionId) {
         debug = new Debug();
+        System.out.println(solutionId);
         try {
             if(solutionId.equals("1")){
                 strategy = new MyStrategy();
