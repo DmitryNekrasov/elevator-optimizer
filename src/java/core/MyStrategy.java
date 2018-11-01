@@ -4,6 +4,7 @@ import core.API.Elevator;
 import core.API.Passenger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -13,35 +14,48 @@ import java.util.stream.Collectors;
 public class MyStrategy extends core.BaseStrategy {
 
     public void onTick(List<Passenger> myPassengers, List<Elevator> myElevators, List<Passenger> enemyPassengers, List<Elevator> enemyElevators) {
-
         for (Elevator e : myElevators) {
-
-            for (Passenger p : myPassengers) {
-                if (p.getState() < 5) {
-                    if (e.getState() != 1) {
-                        e.goToFloor(p.getFromFloor());
-                    }
-                    if (e.getFloor() == p.getFromFloor()) {
-                        p.setElevator(e);
+            if (e.getState() == 2 || e.getState() == 3) {
+//                e.getFloor()
+                long myCount = myPassengers.stream()
+                        .filter(passenger -> passenger.getFloor().equals(e.getFloor()))
+                        .count();
+                long enemyCount = enemyPassengers.stream()
+                        .filter(passenger -> passenger.getFloor().equals(e.getFloor()))
+                        .count();
+                if ((myCount + enemyCount) == 0) {
+                    if (e.getFloor() <= 1) {
+                        e.goToFloor(e.getFloor()+1);
+                        continue;
+                    } else {
+                        e.goToFloor(e.getFloor()-1);
+                        continue;
                     }
                 }
-            }
-            List<Passenger> passengers = (List<Passenger>) e.getPassengers();
-            HashMap<Integer, List<Passenger>> map = new HashMap<>();
-            if (passengers.size() > 5 && e.getState() != 1) {
-                passengers.forEach(passenger ->
-                        {
-                            List<Passenger> aDefault = map.getOrDefault(passenger.getDestFloor(), new ArrayList<>());
-                            aDefault.add(passenger);
-                            map.put(passenger.getDestFloor(), aDefault);
-                        }
-                );
-                Integer destD = map.entrySet().stream()
-                        .sorted(Comparator.comparingInt(o -> o.getValue().size()))
-                        .map(Map.Entry::getKey)
-                        .findFirst().get();
 
-                e.goToFloor(destD);
+                if (e.getPassengers().size() <= 15 && (myCount+enemyCount) > 0){
+                    myPassengers.stream()
+                            .filter(passenger -> passenger.getState() < 5)
+                            .filter(passenger -> passenger.getFromFloor().equals(e.getFloor()))
+                            .forEach(passenger -> passenger.setElevator(e));
+
+
+                    for (Passenger p : enemyPassengers) {
+                        if (!((p.getState() == 1) || p.getState() == 3)) continue;
+                        if (p.getElevator()==e.getId()) continue;
+                        if (p.getFloor() == e.getFloor()) {
+                            p.setElevator(e);
+                        }
+                    }
+
+                } else {
+                    List<Passenger> passengers = (List<Passenger>) e.getPassengers();
+                    List<Integer> collect = passengers.stream()
+                            .map(passenger -> passenger.getDestFloor())
+                            .sorted((o1, o2) -> o1 - o2)
+                            .collect(Collectors.toList());
+                    e.goToFloor(collect.get(0));
+                }
             }
         }
     }
