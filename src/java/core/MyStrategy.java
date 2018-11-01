@@ -16,25 +16,56 @@ public class MyStrategy extends BaseStrategy {
             for (Passenger p : myPassengers) {
                 setElevator(p, e, myElevators, pCount);
             }
-            if (e.getPassengers().size() == 20 || e.getFloor() != 1) {
+//            if (e.getPassengers().size() == 20 || passengersOnFloor(e.getFloor(), myPassengers, enemyPassengers) - 3 <= e.getPassengers().size()) {
+//                e.goToFloor(nearestFloor(e));
+//            }
 
-                e.goToFloor(e.getPassengers().stream().map(Passenger::getDestFloor).min(Integer::compareTo).get());
+
+            if (e.getPassengers().size() == 20 || totalPassengersOnFloor(e, myPassengers, enemyPassengers) <= e.getPassengers().size()) {
+                e.goToFloor(nearestFloor(e));
+            }
+
+
+        }
+    }
+
+    private int totalPassengersOnFloor(Elevator e, List<Passenger> myPassengers, List<Passenger> enemyPassengers) {
+        int count;
+        count = (int) myPassengers.stream()
+                .filter(p -> (p.getFloor() == e.getFloor()) && (p.getElevator() == e.getId() || !p.hasElevator()))
+                .count();
+        count += (int) enemyPassengers.stream()
+                .filter(p -> (p.getFloor() == e.getFloor()) && (p.getElevator() == e.getId() || !p.hasElevator()))
+                .count();
+
+//        if (floor == 1) {
+//            System.err.println(count);
+//        }
+
+        return count;
+    }
+
+
+    private int nearestFloor(Elevator e) {
+        int nearest = e.getPassengers().get(0).getDestFloor();
+        int minDiff = Math.abs(e.getFloor() - nearest);
+        for (Passenger p : e.getPassengers()) {
+            int diff = Math.abs(p.getDestFloor() - e.getFloor());
+            if (diff < minDiff) {
+                minDiff = diff;
+                nearest = p.getDestFloor();
             }
         }
+        return nearest;
     }
 
-    private void setElevatorForEnemy(Passenger p, Elevator e, List<Elevator> elevators) {
-        if (p.getState() < 5) {
-            p.setElevator(e);
-        }
-    }
+    private int passengersOnFloor(Integer floor, List<Passenger> myPassengers, List<Passenger> enemyPassengers) {
+        int count;
+        count = (int) myPassengers.stream().filter(p -> p.getFloor() == floor).count();
+        count += (int) enemyPassengers.stream().filter(p -> p.getFloor() == floor).count();
 
-    private void setElevatorForMine(Passenger p, Elevator e, List<Elevator> elevators) {
-        if (p.getState() < 5) {
-            p.setElevator(e);
-        }
+        return count;
     }
-
 
     private void setElevator(Passenger p, Elevator e, List<Elevator> elevators, int pCount) {
         if (p.getState() < 5) {
