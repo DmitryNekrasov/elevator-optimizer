@@ -31,4 +31,42 @@ public class Strategy extends BaseStrategy {
             }
         }
     }
+
+
+//    public void onTick(List<Passenger> myPassengers, List<Elevator> myElevators, List<Passenger> enemyPassengers, List<Elevator> enemyElevators) {
+//        System.out.println("myPassengers.size:" + myPassengers.size()
+//                +"\nenemyPassengers.size" + enemyPassengers.size());
+//        for (Elevator e : myElevators) {
+//            for (Passenger lovely : enemyPassengers) {
+//                setElevator(lovely, e, myElevators);
+//            }
+//            for (Passenger p : myPassengers) {
+//                setElevator(p, e, myElevators);
+//            }
+//            if(e.getPassengers().size() == 20 || e.getFloor() != 1){
+//
+//                e.goToFloor(e.getPassengers().stream().map(Passenger::getDestFloor).min(Integer::compareTo).get());
+//            }
+//        }
+//    }
+//
+//    private void setElevatorForEnemy(Passenger p, Elevator e, List<Elevator> elevators) {
+//        if (p.getState() < 5) {
+//            p.setElevator(e);
+//        }
+//    }
+//
+//    private void setElevatorForMine(Passenger p, Elevator e, List<Elevator> elevators) {
+//        if (p.getState() < 5) {
+//            p.setElevator(e);
+//        }
+//    }
+//
+//
+//    private void setElevator(Passenger p, Elevator e, List<Elevator> elevators) {
+//        if (p.getState() < 5) {
+//            p.setElevator(e);
+//        }
+//    }
+
 }
