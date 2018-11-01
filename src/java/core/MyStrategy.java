@@ -14,13 +14,13 @@ public class MyStrategy extends BaseStrategy {
     final int n = 20;
 
     int tickCount = 0;
-    final int maxTickNumber = 1000;
+    final int maxTickNumber = 3500;
 
     public void onTick(List<Passenger> myPassengers, List<Elevator> myElevators, List<Passenger> enemyPassengers, List<Elevator> enemyElevators) {
 
-        for (int i = 14; i >= 11; i--) {
-            flags[i] = true;
-        }
+//        for (int i = 14; i >= 11; i--) {
+//            flags[i] = true;
+//        }
 
         tickCount++;
 
@@ -29,30 +29,30 @@ public class MyStrategy extends BaseStrategy {
                 //TODO: Use my strategy
 
                 //Если много людей в лифте - едем
-                if (elevator.getPassengers().size() >= n || totalPassengersOnFloor(elevator.getFloor(),myPassengers, enemyPassengers) < n - 3){
+                if (elevator.getPassengers().size() >= n){
                     elevator.goToFloor(getOptimalFloor(elevator.getFloor(), elevator.getPassengers()));
                     flags[elevator.getId()] = true;
-                } else{ //Набираем людей
+                } else { //Набираем людей
                     if (tickCount < maxTickNumber) {
-                        for (Passenger passenger : myPassengers) {
+                        for (Passenger passenger : enemyPassengers) {
                             if (passenger.getState() < 5 && passenger.getDestFloor() > 5) {
                                 passenger.setElevator(elevator);
                             }
                         }
 
-                        for (Passenger passenger : enemyPassengers) {
+                        for (Passenger passenger : myPassengers) {
                             if (passenger.getState() < 5 && passenger.getDestFloor() > 5) {
                                 passenger.setElevator(elevator);
                             }
                         }
                     } else {
-                        for (Passenger passenger : myPassengers) {
+                        for (Passenger passenger : enemyPassengers) {
                             if (passenger.getState() < 5) {
                                 passenger.setElevator(elevator);
                             }
                         }
 
-                        for (Passenger passenger : enemyPassengers) {
+                        for (Passenger passenger : myPassengers) {
                             if (passenger.getState() < 5) {
                                 passenger.setElevator(elevator);
                             }
