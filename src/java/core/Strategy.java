@@ -9,6 +9,18 @@ public class Strategy extends BaseStrategy {
 
     public void onTick(List<Passenger> myPassengers, List<Elevator> myElevators, List<Passenger> enemyPassengers, List<Elevator> enemyElevators) {
 
+        String solutionId = System.getenv("SOLUTION_ID");
+        if (solutionId.equals("1")) {
+            runFirstStrategy(myPassengers, myElevators, enemyPassengers, enemyElevators);
+        } else {
+            runSecondStrategy(myPassengers, myElevators, enemyPassengers, enemyElevators);
+        }
+    }
+
+    private void runFirstStrategy(List<Passenger> myPassengers,
+                                  List<Elevator> myElevators,
+                                  List<Passenger> enemyPassengers,
+                                  List<Elevator> enemyElevators) {
         for (Elevator e : myElevators) {
             for (Passenger p : myPassengers) {
                 if (p.getState() < 5) {
@@ -24,5 +36,12 @@ public class Strategy extends BaseStrategy {
                 e.goToFloor(e.getPassengers().get(0).getDestFloor());
             }
         }
+    }
+
+    private void runSecondStrategy(List<Passenger> myPassengers,
+                                   List<Elevator> myElevators,
+                                   List<Passenger> enemyPassengers,
+                                   List<Elevator> enemyElevators) {
+
     }
 }
