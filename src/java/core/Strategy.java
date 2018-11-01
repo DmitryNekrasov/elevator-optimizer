@@ -8,13 +8,7 @@ import java.util.List;
 public class Strategy extends BaseStrategy {
 
     public void onTick(List<Passenger> myPassengers, List<Elevator> myElevators, List<Passenger> enemyPassengers, List<Elevator> enemyElevators) {
-
-        String solutionId = System.getenv("SOLUTION_ID");
-        if (solutionId.equals("1")) {
-            runFirstStrategy(myPassengers, myElevators, enemyPassengers, enemyElevators);
-        } else {
-            runSecondStrategy(myPassengers, myElevators, enemyPassengers, enemyElevators);
-        }
+        runFirstStrategy(myPassengers, myElevators, enemyPassengers, enemyElevators);
     }
 
     private void runFirstStrategy(List<Passenger> myPassengers,
@@ -36,12 +30,5 @@ public class Strategy extends BaseStrategy {
                 e.goToFloor(e.getPassengers().get(0).getDestFloor());
             }
         }
-    }
-
-    private void runSecondStrategy(List<Passenger> myPassengers,
-                                   List<Elevator> myElevators,
-                                   List<Passenger> enemyPassengers,
-                                   List<Elevator> enemyElevators) {
-
     }
 }
