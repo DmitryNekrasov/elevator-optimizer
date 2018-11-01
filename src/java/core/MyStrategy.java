@@ -9,19 +9,19 @@ public class MyStrategy extends BaseStrategy {
 
     public void onTick(List<Passenger> myPassengers, List<Elevator> myElevators, List<Passenger> enemyPassengers, List<Elevator> enemyElevators) {
 
-        for (Elevator e : myElevators) {
-            for (Passenger p : myPassengers) {
-                if (p.getState() < 5) {
-                    if (e.getState() != 1) {
-                        e.goToFloor(p.getFromFloor());
+        for (Elevator elevator : myElevators) {
+            for (Passenger passenger : myPassengers) {
+                if (passenger.getState() < 5) {
+                    if (elevator.getState() != 1) {
+                        elevator.goToFloor(passenger.getFromFloor());
                     }
-                    if (e.getFloor() == p.getFromFloor()) {
-                        p.setElevator(e);
+                    if (elevator.getFloor() == passenger.getFromFloor()) {
+                        passenger.setElevator(elevator);
                     }
                 }
             }
-            if (e.getPassengers().size() > 4 && e.getState() != 1) {
-                e.goToFloor(e.getPassengers().get(0).getDestFloor());
+            if (elevator.getPassengers().size() > 0 && elevator.getState() != 1) {
+                elevator.goToFloor(elevator.getPassengers().get(0).getDestFloor());
             }
         }
     }
