@@ -1,6 +1,7 @@
 package core.API;
 
 import core.BaseStrategy;
+import core.MyStrategy;
 import core.Strategy;
 import javafx.util.Pair;
 import org.json.simple.JSONArray;
@@ -20,10 +21,14 @@ public class API {
     private Debug debug;
 
     private BaseStrategy strategy = null;
-    public API() {
+    public API(String solutionId) {
         debug = new Debug();
         try {
-            strategy = new Strategy();
+            if(solutionId.equals("1")){
+                strategy = new MyStrategy();
+            } else {
+                strategy = new Strategy();
+            }
             strategy.setDebug(debug);
         } catch (Exception e) {
             debug.exception(e);

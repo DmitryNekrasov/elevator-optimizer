@@ -58,7 +58,7 @@ public class Client {
     }
 
     private void strategyLoop(BufferedReader reader) throws IOException {
-        API api = new API();
+        API api = new API(solutionId);
         while (true) {
             JSONObject object = parseString(reader.readLine());
             if (object == null || (object.get("message") != null && object.get("message").equals("down"))) {
