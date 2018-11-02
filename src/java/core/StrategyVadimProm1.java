@@ -5,7 +5,7 @@ import core.API.Passenger;
 
 import java.util.List;
 
-public class MyStrategy extends BaseStrategy {
+public class StrategyVadimProm1 extends BaseStrategy {
 
     public void onTick(List<Passenger> myPassengers, List<Elevator> myElevators, List<Passenger> enemyPassengers, List<Elevator> enemyElevators) {
         int pCount = myPassengers.size() + enemyPassengers.size();
@@ -20,8 +20,6 @@ public class MyStrategy extends BaseStrategy {
             if (e.getPassengers().size() == 20 || totalPassengersOnFloor(e, myPassengers, enemyPassengers) <= e.getPassengers().size()) {
                 e.goToFloor(nearestFloor(e));
             }
-
-
         }
     }
 

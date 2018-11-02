@@ -1,8 +1,9 @@
 package core.API;
 
 import core.BaseStrategy;
-import core.MyStrategy;
 import core.Strategy;
+import core.StrategyV3;
+import core.StrategyVadimProm1;
 import javafx.util.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,7 +26,7 @@ public class API {
         debug = new Debug();
         try {
             if(solutionId.equals("1")){
-                strategy = new MyStrategy();
+                strategy = new StrategyV3();
             } else {
                 strategy = new Strategy();
             }
